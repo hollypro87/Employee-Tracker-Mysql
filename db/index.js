@@ -11,5 +11,11 @@ class DB {
         );
     }
 
+    findAllPossibleManager(employeeid) {
+        return this.connection.query(
+            "SELECT id, first_name, last_name FROM employee WHERE id != ?", employeeId
+        );
+    }
+
 
 }
