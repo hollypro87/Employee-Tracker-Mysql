@@ -37,10 +37,6 @@ async function loadMainPrompts() {
                     value: "ADD_EMPLOYEE"
                 },
                 {
-                    name: "Remove Employee",
-                    value: "REMOVE_EMPLOYEE"
-                },
-                {
                     name: "Update Roles",
                     value: "UPDATE_EMPLOYEE_ROLE"
                 },
@@ -57,20 +53,12 @@ async function loadMainPrompts() {
                     value: "ADD_ROLE"
                 },
                 {
-                    name: "Remove Role",
-                    value: "REMOVE_ROLE"
-                },
-                {
                     name: "View Departments",
                     value: "VIEW_DEPARTMENTS"
                 },
                 {
                     name: "Add Department",
                     value: "ADD_DEPARTMENT"
-                },
-                {
-                    name: "Remove Department",
-                    value: "REMOVE_DEPARTMENT"
                 },
                 {
                     name: "Quit",
@@ -89,8 +77,6 @@ async function loadMainPrompts() {
             return viewEmployeesByManager();
         case "ADD_EMPLOYEE":
             return addEmployee();
-        case "REMOVE_EMPLOYEE":
-            return removeEmployee();
         case "UPDATE_EMPLOYEE_ROLE":
             return updateEmployeeRole();
         case "UPDATE_EMPLOYEE_MANAGER":
@@ -99,14 +85,10 @@ async function loadMainPrompts() {
             return viewDepartments();
         case "ADD_DEPARTMENT":
             return addDepartment();
-        case "REMOVE_DEPARTMENT":
-            return removeDepartment();
         case "VIEW_ROLES":
             return viewRoles();
         case "ADD_ROLE":
             return addRole();
-        case "REMOVE_ROLE":
-            return removeRole();
         default:
             return quit();
     }
@@ -167,27 +149,6 @@ async function viewEmployeesByManager() {
     } else {
         console.table(employees);
     }
-    loadMainPrompts();
-}
-
-async function removeEmployee() {
-    const employees = await db.findAllEmployees();
-    const employeeChoices = employees.map(({ id, first_name, last_name }) => ({
-        name: `${first_name} ${last_name}`,
-        value: id
-    }));
-
-    const { employeeId } = await prompt([
-        {
-            type: "list",
-            name: "employeeId",
-            message: "Who do you want to remove?",
-            choices: employeeChoices
-        }
-    ]);
-
-    await db.removeEmployee(employeeId);
-    console.log("Removed employee");
     loadMainPrompts();
 }
 
@@ -304,31 +265,6 @@ async function addRole() {
     loadMainPrompts();
 }
 
-async function removeRole() {
-    const roles = await db.findAllRoles();
-
-    const roleChoices = roles.map(({ id, title }) => ({
-        name: title,
-        value: id
-    }));
-
-    const { roleId } = await prompt([
-        {
-            type: "list",
-            name: "roleId",
-            message:
-                "Which role do you want to remove? (This will remove employees too)",
-            choices: roleChoices
-        }
-    ]);
-
-    await db.removeRole(roleId);
-
-    console.log("Removed role");
-
-    loadMainPrompts();
-}
-
 async function viewDepartments() {
     const departments = await db.findAllDepartments();
 
@@ -349,29 +285,6 @@ async function addDepartment() {
     await db.createDepartment(department);
 
     console.log(`Added ${department.name} to the database`);
-
-    loadMainPrompts();
-}
-
-async function removeDepartment() {
-    const departments = await db.findAllDepartments();
-
-    const departmentChoices = departments.map(({ id, name }) => ({
-        name: name,
-        value: id
-    }));
-
-    const { departmentId } = await prompt({
-        type: "list",
-        name: "departmentId",
-        message:
-            "Which would you like to remove? (This will remove associated roles and employees as well)",
-        choices: departmentChoices
-    });
-
-    await db.removeDepartment(departmentId);
-
-    console.log(`Removed department`);
 
     loadMainPrompts();
 }
