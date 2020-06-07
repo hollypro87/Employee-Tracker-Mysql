@@ -80,5 +80,84 @@ async function loadMainPrompts() {
         }
     ]);
 
-
+    switch (choice) {
+        case "VIEW_EMPLOYEES":
+            return viewEmployees();
+        case "VIEW_EMPLOYEES_BY_DEPARTMENT":
+            return viewEmployeesByDepartment();
+        case "VIEW_EMPLOYEES_BY_MANAGER":
+            return viewEmployeesByManager();
+        case "ADD_EMPLOYEE":
+            return addEmployee();
+        case "REMOVE_EMPLOYEE":
+            return removeEmployee();
+        case "UPDATE_EMPLOYEE_ROLE":
+            return updateEmployeeRole();
+        case "UPDATE_EMPLOYEE_MANAGER":
+            return updateEmployeeManager();
+        case "VIEW_DEPARTMENTS":
+            return viewDepartments();
+        case "ADD_DEPARTMENT":
+            return addDepartment();
+        case "REMOVE_DEPARTMENT":
+            return removeDepartment();
+        case "VIEW_ROLES":
+            return viewRoles();
+        case "ADD_ROLE":
+            return addRole();
+        case "REMOVE_ROLE":
+            return removeRole();
+        default:
+            return quit();
+    }
 }
+
+async function viewEmployeesByDepartment() {
+    const departments = await db.findAllDepartments();
+    const departmentChoices = departments.map(({ id, name }) => ({
+        name: name,
+        value: id
+    }));
+
+    const { departmentId } = await prompt([
+        {
+            type: "list",
+            name: "departmentId",
+            message: "Please choose a department.",
+            choices: departmentChoices
+        }
+    ]);
+
+    const employees = await db.findAllByDepartment(departmentId);
+    console.log("/n");
+    console.log(employees);
+    loadMainPrompts();
+}
+
+async function viewEmployeesByManager() {
+    const managers = await db.findAllEmployees();
+    const managerChoices = managers.map(({ id, first_name, last_name }) => ({
+        name: `${first_name} ${last_name}`,
+        value: id
+    }));
+
+    const { managerId } await prompt([
+        {
+            type: "list",
+            name: "managerId",
+            message: "Please choose a manager to see direct reports.",
+            choices: managerChoices
+        }
+    ]);
+
+    const employees = await db.findAllByManager(managerId);
+    console.log("/n");
+
+    if (employees.length === 0) {
+        console.log("This employee has no direct reports.");
+    } else {
+        console.table(employees);
+    }
+    loadMainPrompts();
+}
+
