@@ -1,8 +1,17 @@
 const { prompt } = require("inquirer");
 const db = require("./db");
+const logo = require("asciiart-logo");
 require("console.table");
 
 init();
+
+function init() {
+    const logoText = logo({ name: "Employee Tracker" }).render();
+
+    console.log(logoText);
+
+    loadMainPrompts();
+}
 
 async function loadMainPrompts() {
     const { choice } = await prompt([
