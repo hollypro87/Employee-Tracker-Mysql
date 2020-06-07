@@ -17,5 +17,9 @@ class DB {
         );
     }
 
+    createEmployee(employee) {
+        return this.connection.query("INSERT INTO employee SET ?", employee);
+    }
+
 
 }
