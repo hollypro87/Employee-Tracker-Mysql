@@ -7,13 +7,11 @@ const connection = mysql.createConnection({
     user: "root",
     // Your password
     password: "password",
-    database: "employees"
+    database: "employeesDB"
 });
 
 connection.connect();
 
-// Setting up connection.query to use promises instead of callbacks
-// This allows us to use the async/await syntax
 connection.query = util.promisify(connection.query);
 
 module.exports = connection;

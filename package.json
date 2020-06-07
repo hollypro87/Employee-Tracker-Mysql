@@ -1,0 +1,24 @@
+{
+  "name": "Employee-Tracker-Mysql",
+  "version": "1.0.0",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/hollypro87/Employee-Tracker-Mysql.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/hollypro87/Employee-Tracker-Mysql/issues"
+  },
+  "homepage": "https://github.com/hollypro87/Employee-Tracker-Mysql#readme",
+  "description": "",
+  "dependencies": {
+    "inquirer": "^7.1.0"
+  }
+}
