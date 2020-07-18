@@ -2,7 +2,7 @@ const connection = require("./connection");
 
 class DB {
     constructor(connection) {
-        this.connections = connection;
+        this.connection = connection;
     }
 
     findAllEmployees() {
@@ -11,7 +11,7 @@ class DB {
         );
     }
 
-    findAllPossibleManager(employeeid) {
+    findAllPossibleManager(employeeId) {
         return this.connection.query(
             "SELECT id, first_name, last_name FROM employee WHERE id != ?", employeeId
         );
