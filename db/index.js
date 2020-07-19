@@ -22,7 +22,7 @@ class DB {
     }
 
     updateEmployeeRole(employeeId, roleId) {
-        return this.connection.query("UPDATE employee SET role_id = ? WHERE id = ?", [roleId, employeeId]);
+        return this.connection.query("UPDATE employee SET role_id = ? WHERE id = ?", [employeeId, roleId]);
     }
 
     updateEmployeeManager(employeeId, managerId) {
@@ -31,7 +31,7 @@ class DB {
 
     findAllRoles() {
         return this.connection.query(
-            "SLECT role.id, role.title, department.name AS department, role.salary FROM role LEFT JOIN department on role.department_id = department.id;"
+            "SELECT role.id, role.title, department.name AS department, role.salary FROM role LEFT JOIN department on role.department_id = department.id;"
         );
     }
 
@@ -45,7 +45,7 @@ class DB {
         return this.connection.query("INSERT INTO role SET ?", role);
     }
 
-    createDeparment(departmentId) {
+    createDepartment(departmentId) {
         return this.connection.query("INSERT INTO department SET ?", department);
     }
 

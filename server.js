@@ -159,7 +159,7 @@ async function updateEmployeeRole() {
         value: id
     }));
 
-    const { employeeID } = await prompt([
+    const { employeeId } = await prompt([
         {
             type: "list",
             name: "employeeID",
